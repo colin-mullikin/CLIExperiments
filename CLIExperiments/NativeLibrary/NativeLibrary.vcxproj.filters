@@ -30,6 +30,12 @@
     <ClInclude Include="WorkerTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CriticalSectionHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CriticalSectionLocker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,6 +45,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorkerTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CriticalSectionHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CriticalSectionLocker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
