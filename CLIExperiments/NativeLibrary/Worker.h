@@ -1,7 +1,9 @@
 #pragma once
+
 #include <queue>;
 #include <Windows.h>;
 #include "WorkerTask.h";
+#include "CriticalSectionHolder.h";
 
 class Worker
 {
@@ -18,5 +20,7 @@ public:
 private:
 	std::queue<WorkerTask> m_waitingTasks;
 	std::vector<HANDLE> m_workerThreadsHandles;
+	CriticalSectionHolder m_criticalSection;
+
 };
 

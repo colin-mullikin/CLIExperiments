@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Worker.h"
+#include "CriticalSectionLocker.h";
 
 #define WORKER_THREADS_NUM 4
 
@@ -13,6 +14,7 @@ Worker::~Worker()
 
 void Worker::QueueWorkerTask(const WorkerTask & task)
 {
+	CriticalSectionLocker locker(m_criticalSection.GetCriticalSection());
 	m_waitingTasks.push(task);
 }
 
@@ -24,6 +26,7 @@ WorkerTask Worker::GetQueuedWorkerTask()
 
 	while (!isTaskFound)
 	{
+		CriticalSectionLocker locker(m_criticalSection.GetCriticalSection());
 		if (!m_waitingTasks.empty())
 		{
 			res = m_waitingTasks.front();
