@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>;
+#include <Windows.h>;
 #include "WorkerTask.h";
 
 class Worker
@@ -10,8 +11,12 @@ public:
 
 	void QueueWorkerTask(const WorkerTask& task);
 	WorkerTask GetQueuedWorkerTask();
+	unsigned int __stdcall WorkerThreadProc(void* pParam);
+	void Start();
+	void Stop();
 
 private:
 	std::queue<WorkerTask> m_waitingTasks;
+	std::vector<HANDLE> m_workerThreadsHandles;
 };
 
