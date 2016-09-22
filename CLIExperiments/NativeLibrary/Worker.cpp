@@ -1,10 +1,13 @@
+#include <process.h>
 #include "stdafx.h"
 #include "Worker.h"
-#include "CriticalSectionLocker.h";
+#include "CriticalSectionLocker.h"
+#include <process.h>
 
 #define WORKER_THREADS_NUM 4
 
 Worker::Worker()
+	:m_isWorking(false)
 {
 }
 
@@ -38,7 +41,7 @@ WorkerTask Worker::GetQueuedWorkerTask()
 	return res;
 }
 
-unsigned int Worker::WorkerThreadProc(void * pParam)
+unsigned int __stdcall Worker::WorkerThreadProc(void * pParam)
 {
 	Worker* theWorker = reinterpret_cast<Worker*>(pParam);
 
@@ -59,12 +62,15 @@ unsigned int Worker::WorkerThreadProc(void * pParam)
 
 void Worker::Start()
 {
+	m_startClocks = clock();
 	unsigned int threadID = 0;
 
 	for (int threadInx = 0; threadInx < WORKER_THREADS_NUM; threadInx++)
 	{
-
+		m_workerThreadsHandles[threadInx] = (HANDLE)::_beginthreadex(0, 0, WorkerThreadProc, (void*)this, 0, &threadID);
 	}
+
+	m_isWorking = true;
 }
 
 void Worker::Stop()
@@ -88,4 +94,12 @@ void Worker::Stop()
 		::CloseHandle(currHandle);
 		m_workerThreadsHandles[threadInx] = 0;
 	}
+
+	m_isWorking = false;
+	m_stopClocks = clock();
+}
+
+double Worker::GetWorkingSeconds() const
+{
+	return (double)((m_isWorking ? clock() : m_stopClocks) - m_startClocks) / CLOCKS_PER_SEC;
 }
