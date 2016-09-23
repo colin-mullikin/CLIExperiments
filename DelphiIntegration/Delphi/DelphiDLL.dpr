@@ -22,6 +22,11 @@ begin
   result := TFooBar.Create;
 end;
 
+procedure DestroyFooBar(aFooBar: Pointer);
+begin
+  TFooBar(aFooBar).Free;
+end;
+
 procedure MultiplyByFive(aFooBar: Pointer);
 begin
   TFooBar(aFooBar).MultiplyByFive;
@@ -33,6 +38,7 @@ begin
 end;
 
 exports CreateFooBar,
+        DestroyFooBar,
         MultiplyByFive,
         MultiplyByTen;
 
