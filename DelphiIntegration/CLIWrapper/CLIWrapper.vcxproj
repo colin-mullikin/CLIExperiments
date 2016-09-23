@@ -92,6 +92,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,9 +124,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FooBar.h" />
     <ClInclude Include="FooBarManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FooBar.cpp" />
     <ClCompile Include="FooBarManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

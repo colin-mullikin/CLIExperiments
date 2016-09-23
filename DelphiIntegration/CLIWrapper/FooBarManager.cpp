@@ -1,10 +1,14 @@
 #include "FooBarManager.h"
 
-
-
 FooBarManager::FooBarManager()
 {
 	libHandle = LoadLibrary(TEXT("DelphiDLL.dll"));
+
+	if (NULL != libHandle)
+	{
+		proc_createFooBar = (CreateFooBar)GetProcAddress(libHandle, "CreateFooBar");
+		proc_destroyFooBar = (DestroyFooBar)GetProcAddress(libHandle, "DestroyFooBar");
+	}
 }
 
 FooBarManager::~FooBarManager()
@@ -21,4 +25,9 @@ FooBarManager::!FooBarManager()
 	{
 		FreeLibrary(libHandle);
 	}
+}
+
+void * FooBarManager::CreateNewFooBar()
+{
+	return proc_createFooBar();
 }
