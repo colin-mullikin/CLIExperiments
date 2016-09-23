@@ -1,6 +1,8 @@
+#include "stdafx.h"
 #include <process.h>
 #include <iostream>
-#include "stdafx.h"
+#include <ostream>
+
 #include "Worker.h"
 #include "CriticalSectionLocker.h"
 
@@ -118,11 +120,33 @@ void Worker::PrintStatistics()
 {
 	CriticalSectionLocker locker(m_criticalSection.GetCriticalSection());
 
-	std::cout << "Worker working seconds: " << GetWorkingSeconds() << std::endl;
-	std::cout << "Tasks execution seconds: " << std::endl;
+	using namespace std;
+	cout << "Worker working seconds: " << GetWorkingSeconds() << endl;
+	cout << "Tasks execution seconds: " << endl;
 	for_each(m_executedTasks.begin(), m_executedTasks.end(), [](WorkerTask task) -> void
 	{
-		std::cout << "\t" << task.GetTaskDescription() << std::endl;
+		cout << "\t" << task.GetTaskDescription() << endl;
 	});
 
+}
+
+void Worker::QueueWorkerTask(unsigned int outerLoopCount, unsigned int innerLoopCount)
+{
+	QueueWorkerTask(WorkerTask(outerLoopCount, innerLoopCount));
+}
+
+void Worker::QueueDemoWorkerTasks()
+{
+	for (unsigned int taskLoopCount = 10000; taskLoopCount < 50000; taskLoopCount+=1000)
+	{
+		QueueWorkerTask(taskLoopCount, taskLoopCount);
+	}
+}
+
+void Worker::ExecuteWorkerTask(unsigned int outerLoopCount, unsigned int innerLoopCount)
+{
+	WorkerTask task(outerLoopCount, innerLoopCount);
+	task.Execute();
+
+	AddExecutedTask(task);
 }

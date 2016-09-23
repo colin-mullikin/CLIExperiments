@@ -22,6 +22,10 @@ public:
 	void AddExecutedTask(const WorkerTask& task);
 	void PrintStatistics();
 
+	void QueueWorkerTask(unsigned int outerLoopCount, unsigned int innerLoopCount);
+	void QueueDemoWorkerTasks();
+	void ExecuteWorkerTask(unsigned int outerLoopCount, unsigned int innerLoopCount);
+
 private:
 	std::queue<WorkerTask> m_waitingTasks;
 	std::vector<HANDLE> m_workerThreadsHandles;
