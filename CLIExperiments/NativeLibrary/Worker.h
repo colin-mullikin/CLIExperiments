@@ -3,6 +3,7 @@
 #include <queue>
 #include <Windows.h>
 #include <time.h>
+#include <list>
 #include "WorkerTask.h"
 #include "CriticalSectionHolder.h"
 
@@ -18,6 +19,8 @@ public:
 	void Start();
 	void Stop();
 	double GetWorkingSeconds() const;
+	void AddExecutedTask(const WorkerTask& task);
+	void PrintStatistics();
 
 private:
 	std::queue<WorkerTask> m_waitingTasks;
@@ -28,6 +31,8 @@ private:
 	clock_t m_stopClocks;
 
 	bool m_isWorking;
+
+	std::list<WorkerTask> m_executedTasks;
 
 
 	static unsigned int __stdcall WorkerThreadProc(void* pParam);

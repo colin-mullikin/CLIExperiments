@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "WorkerTask.h"
 #include <time.h>
+#include <sstream>
 
 
 WorkerTask::WorkerTask(int outerLoopCount, int innerLoopCount, bool isEndingTask)
@@ -37,4 +38,12 @@ void WorkerTask::Execute()
 	clock_t endClocks = clock();
 
 	m_executionSeconds = (double)(endClocks - beginClocks) / CLOCKS_PER_SEC;
+}
+
+std::string WorkerTask::GetTaskDescription() const
+{
+	std::stringstream ss;
+	ss << "(" << m_outerLoopCount << "," << m_innerLoopCount << ") Execution seconds: " << m_executionSeconds << ".";
+
+	return ss.str();
 }

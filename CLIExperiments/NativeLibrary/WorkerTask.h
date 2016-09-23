@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class WorkerTask
 {
 public:
@@ -10,6 +12,8 @@ public:
 	void Execute();
 
 	bool isEndingTask() const { return m_isEndingTask; }
+
+	std::string GetTaskDescription() const;
 
 private:
 	unsigned int m_outerLoopCount;

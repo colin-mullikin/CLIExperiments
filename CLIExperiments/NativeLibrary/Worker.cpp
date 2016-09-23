@@ -1,8 +1,9 @@
 #include <process.h>
+#include <iostream>
 #include "stdafx.h"
 #include "Worker.h"
 #include "CriticalSectionLocker.h"
-#include <process.h>
+
 
 #define WORKER_THREADS_NUM 4
 
@@ -55,6 +56,8 @@ unsigned int __stdcall Worker::WorkerThreadProc(void * pParam)
 		}
 
 		task.Execute();
+
+		theWorker->AddExecutedTask(task);
 	}
 
 	return 0;
@@ -102,4 +105,24 @@ void Worker::Stop()
 double Worker::GetWorkingSeconds() const
 {
 	return (double)((m_isWorking ? clock() : m_stopClocks) - m_startClocks) / CLOCKS_PER_SEC;
+}
+
+void Worker::AddExecutedTask(const WorkerTask & task)
+{
+	CriticalSectionLocker locker(m_criticalSection.GetCriticalSection());
+
+	m_executedTasks.push_back(task);
+}
+
+void Worker::PrintStatistics()
+{
+	CriticalSectionLocker locker(m_criticalSection.GetCriticalSection());
+
+	std::cout << "Worker working seconds: " << GetWorkingSeconds() << std::endl;
+	std::cout << "Tasks execution seconds: " << std::endl;
+	for_each(m_executedTasks.begin(), m_executedTasks.end(), [](WorkerTask task) -> void
+	{
+		std::cout << "\t" << task.GetTaskDescription() << std::endl;
+	});
+
 }
