@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WorkerTask.h"
+#include <time.h>
 
 
 WorkerTask::WorkerTask(int outerLoopCount, int innerLoopCount, bool isEndingTask)
@@ -19,6 +20,8 @@ WorkerTask::~WorkerTask()
 
 void WorkerTask::Execute()
 {
+	clock_t beginClocks = clock();
+
 	for (unsigned int outerCount = 0; outerCount < m_outerLoopCount; outerCount++)
 	{
 		int* pi = new int[m_innerLoopCount];
@@ -30,4 +33,8 @@ void WorkerTask::Execute()
 
 		delete[] pi;
 	}
+
+	clock_t endClocks = clock();
+
+	m_executionSeconds = (double)(endClocks - beginClocks) / CLOCKS_PER_SEC;
 }

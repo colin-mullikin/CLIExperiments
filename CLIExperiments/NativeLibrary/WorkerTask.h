@@ -1,4 +1,5 @@
 #pragma once
+
 class WorkerTask
 {
 public:
@@ -14,5 +15,7 @@ private:
 	unsigned int m_outerLoopCount;
 	unsigned int m_innerLoopCount;
 	bool m_isEndingTask;
+	double m_executionSeconds;
+
 };
 
