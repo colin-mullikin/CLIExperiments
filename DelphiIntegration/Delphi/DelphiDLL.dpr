@@ -37,10 +37,22 @@ begin
   result := TFooBar(aFooBar).MultiplyByTen;
 end;
 
+function GetFoo(aFooBar: Pointer): integer; stdcall;
+begin
+  result := TFooBar(aFooBar).Foo;
+end;
+
+function GetBar(aFooBar: Pointer): boolean; stdcall;
+begin
+  result := TFooBar(aFooBar).Bar;
+end;
+
 exports CreateFooBar,
         DestroyFooBar,
         MultiplyByFive,
-        MultiplyByTen;
+        MultiplyByTen,
+        GetFoo,
+        GetBar;
 
 
 begin
