@@ -17,22 +17,22 @@ uses
 
 {$R *.res}
 
-function CreateFooBar: Pointer;
+function CreateFooBar: Pointer; stdcall;
 begin
   result := TFooBar.Create;
 end;
 
-procedure DestroyFooBar(aFooBar: Pointer);
+procedure DestroyFooBar(aFooBar: Pointer); stdcall;
 begin
   TFooBar(aFooBar).Free;
 end;
 
-procedure MultiplyByFive(aFooBar: Pointer);
+procedure MultiplyByFive(aFooBar: Pointer); stdcall;
 begin
   TFooBar(aFooBar).MultiplyByFive;
 end;
 
-function MultiplyByTen(aFooBar: Pointer): integer;
+function MultiplyByTen(aFooBar: Pointer): integer; stdcall;
 begin
   result := TFooBar(aFooBar).MultiplyByTen;
 end;
@@ -45,4 +45,3 @@ exports CreateFooBar,
 
 begin
 end.
-
