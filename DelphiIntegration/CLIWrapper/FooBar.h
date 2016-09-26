@@ -4,22 +4,29 @@
 
 typedef void* (__stdcall *CreateFooBar)();
 typedef void(__stdcall *DestroyFooBar)(void*);
+typedef int(__stdcall *GetFoo)(void*);
 
-ref class FooBar
-{
-public:
-	FooBar();
-	~FooBar();
-	!FooBar();
+namespace CLIWrapper {
+	public ref class FooBar
+	{
+	public:
+		FooBar();
+		~FooBar();
+		!FooBar();
 
-	static void Initialize(); //Must call this before FooBar class can be used!
-	static void TearDown(); //Must call this after FooBar class is done being used!
+		int GetFooValue();
 
-private:
-	void* fInternalFooBar;
+		static void Initialize(); //Must call this before FooBar class can be used!
+		static void TearDown(); //Must call this after FooBar class is done being used!
 
-	static HINSTANCE libHandle;
-	static CreateFooBar proc_Create;
-	static DestroyFooBar proc_Destroy;
-};
+	private:
+		void* fInternalFooBar;
+
+		static HINSTANCE libHandle;
+		static CreateFooBar proc_Create;
+		static DestroyFooBar proc_Destroy;
+		static GetFoo proc_GetFoo;
+	};
+
+}
 

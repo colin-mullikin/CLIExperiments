@@ -1,44 +1,60 @@
 #include "FooBar.h"
 
-FooBar::FooBar()
-{
-	if (NULL != proc_Create)
+namespace CLIWrapper {
+	FooBar::FooBar()
 	{
-		fInternalFooBar = proc_Create();
+		if (NULL != proc_Create)
+		{
+			fInternalFooBar = proc_Create();
+		}
 	}
-}
 
-FooBar::~FooBar()
-{
-	if (NULL != proc_Destroy)
+	FooBar::~FooBar()
 	{
-		proc_Destroy(fInternalFooBar);
+		if (NULL != proc_Destroy)
+		{
+			proc_Destroy(fInternalFooBar);
+		}
 	}
-}
 
-FooBar::!FooBar()
-{
-	if (NULL != proc_Destroy)
+	FooBar::!FooBar()
 	{
-		proc_Destroy(fInternalFooBar);
+		if (NULL != proc_Destroy)
+		{
+			proc_Destroy(fInternalFooBar);
+		}
 	}
-}
 
-void FooBar::Initialize()
-{
-	libHandle = LoadLibrary(TEXT("DelphiDLL.dll"));
-
-	if (NULL != libHandle)
+	int FooBar::GetFooValue()
 	{
-		proc_Create = (CreateFooBar)GetProcAddress(libHandle, "CreateFooBar");
-		proc_Destroy = (DestroyFooBar)GetProcAddress(libHandle, "DestroyFooBar");
+		if (NULL != proc_GetFoo)
+		{
+			return proc_GetFoo(fInternalFooBar);
+		}
+		else
+		{
+			return -1;
+		}
 	}
-}
 
-void FooBar::TearDown()
-{
-	if (NULL != libHandle)
+	void FooBar::Initialize()
 	{
-		FreeLibrary(libHandle);
+		libHandle = LoadLibrary(TEXT("DelphiDLL.dll"));
+
+		if (NULL != libHandle)
+		{
+			proc_Create = (CreateFooBar)GetProcAddress(libHandle, "CreateFooBar");
+			proc_Destroy = (DestroyFooBar)GetProcAddress(libHandle, "DestroyFooBar");
+			proc_GetFoo = (GetFoo)GetProcAddress(libHandle, "GetFoo");
+		}
 	}
+
+	void FooBar::TearDown()
+	{
+		if (NULL != libHandle)
+		{
+			FreeLibrary(libHandle);
+		}
+	}
+
 }
